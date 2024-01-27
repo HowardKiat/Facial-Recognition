@@ -164,3 +164,4 @@ while True:
                             
         cv2.imshow("Attendance System", backgroundImg)
         cv2.waitKey(1)
+        

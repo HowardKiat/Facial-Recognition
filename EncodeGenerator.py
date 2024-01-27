@@ -50,3 +50,4 @@ pickle.dump(encodingsListWithIDs, encodingFile)
 
 encodingFile.close()
 
+
