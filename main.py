@@ -123,6 +123,26 @@ while True:
 
                 backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
 
+                if counter < 10:
+
+                    cv2.putText(backgroundImg, str(studentInfo['total_attendance']), (861, 125),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
+                    
+                    cv2.putText(backgroundImg, str(studentInfo['major']), (1006, 550),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+                    
+                    cv2.putText(backgroundImg, str(id), (1006, 493),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+                    
+                    cv2.putText(backgroundImg, str(studentInfo['grades']), (910, 625),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (100, 100, 100), 1)
+                    
+                    cv2.putText(backgroundImg, str(studentInfo['year']), (1025, 625),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (100, 100, 100), 1)
+                    
+                    cv2.putText(backgroundImg, str(studentInfo['starting_year']), (1125, 625),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (100, 100, 100), 1)
+
                 
 
 
