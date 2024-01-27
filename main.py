@@ -14,7 +14,7 @@ from datetime import datetime
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://attendanceproject-e874c-default-rtdb.firebaseio.com/",
-    'storageBucket': "gs://attendanceproject-e874c.appspot.com"
+    'storageBucket': "attendanceproject-e874c.appspot.com"
 })
 
 bucket = storage.bucket()
@@ -46,10 +46,10 @@ id = -1
 while True:
     success, image = capture.read()
 
-    # Resize the webcam image to match the region size
+
     image = cv2.resize(image, (640, 480))
 
-    # Assign the resized image to the background
+
     backgroundImg[162:162 + 480, 55:55 + 640] = image
     backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[0]
 
@@ -59,7 +59,7 @@ while True:
     faceCurrentFrame = face_recognition.face_locations(smallImage)
 
     encodeCurrentFrame = face_recognition.face_encodings(smallImage, faceCurrentFrame)
-    # showing the window for your backgrounding
+
     cv2.imshow("Attendance System", backgroundImg)
     cv2.waitKey(1)
 
@@ -91,31 +91,30 @@ while True:
                     modeType = 1
 
         if counter != 0:
-            
             if counter == 1:
-
-                studentInfo = db.reference(f'Stduents/{id}').get()
+                studentInfo = db.reference(f'Students/{id}').get()
                 print(studentInfo)
-            
+
                 blob = bucket.get_blob(f'Images/{id}.png')
-                array = np.frombuffer(blob.download_as_string(), np.uint8)
-                studentImg = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
+                if blob and blob.exists():
+                    array = np.frombuffer(blob.download_as_string(), np.uint8)
+                    studentImg = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
 
-                datetimeObject = datetime.strptime(studentInfo['last_attendance_taken'],
-                                                   "%Y-%m-%d %H:%M:%S")
-                timeInSecsElapsed = (datetime.now() - datetimeObject).total_seconds()
-                if timeInSecsElapsed > 30:
+                    datetimeObject = datetime.strptime(studentInfo['last_attendance_taken'], "%Y-%m-%d %H:%M:%S")
+                    timeInSecsElapsed = (datetime.now() - datetimeObject).total_seconds()
 
-                    ref = db.reference(f'Students/{id}')
-                    studentInfo['total_attendance'] += 1
+                    if timeInSecsElapsed > 30:
+                        ref = db.reference(f'Students/{id}')
+                        studentInfo['total_attendance'] += 1
 
-                    ref.child('total_attendance').set(studentInfo['total_attendance'])
-                    ref.child('last_attendance_taken').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                
+                        ref.child('total_attendance').set(studentInfo['total_attendance'])
+                        ref.child('last_attendance_taken').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    else:
+                        modeType = 3
+                        counter = 0
+                        backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
                 else:
-                    modeType = 3
-                    counter = 0
-                    backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
+                    print(f"Blob 'Images/{id}.png' does not exist.")
 
             if modeType != 3:
                 if 10 < counter <20:
@@ -124,7 +123,6 @@ while True:
                 backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
 
                 if counter < 10:
-
                     cv2.putText(backgroundImg, str(studentInfo['total_attendance']), (861, 125),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
                     

@@ -9,9 +9,10 @@ from firebase_admin import db
 from firebase_admin import storage
 
 cred = credentials.Certificate("serviceAccountKey.json")
+
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://attendanceproject-e874c-default-rtdb.firebaseio.com/",
-    'storageBucket': "gs://attendanceproject-e874c.appspot.com"
+    'storageBucket': "attendanceproject-e874c.appspot.com"
 })
 
 folderPathImages = 'Images'
@@ -19,12 +20,11 @@ listPathImages = os.listdir(folderPathImages)
 imgListImages = []
 
 studentIDs = []
-print(listPathImages)
+# print(listPathImages)
 
 for path in listPathImages:
     imgListImages.append(cv2.imread(os.path.join(folderPathImages, path)))
-
-    studentIDs.append(os.path.splittext(path)[0])
+    studentIDs.append(os.path.splitext(path)[0]) 
 
     fileName = f'{folderPathImages}/{path}'
     bucket = storage.bucket()
