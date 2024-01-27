@@ -11,7 +11,7 @@ from firebase_admin import storage
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://attendanceproject-e874c-default-rtdb.firebaseio.com/",
-    'storageBucket': "attendanceproject-e874c.appspot.com/"
+    'storageBucket': "gs://attendanceproject-e874c.appspot.com"
 })
 
 folderPathImages = 'Images'
