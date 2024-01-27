@@ -96,6 +96,11 @@ while True:
 
                 studentInfo = db.reference(f'Stduents/{id}').get()
                 print(studentInfo)
+            
+                blob = bucket.get_blob(f'Images/{id}.png')
+                array = np.frombuffer(blob.download_as_string(), np.uint8)
+                studentImg = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
+                
 
 
 
