@@ -142,15 +142,27 @@ while True:
                     
                     cv2.putText(backgroundImg, str(studentInfo['starting_year']), (1125, 625),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (100, 100, 100), 1)
-
+                    
+                    (width, height), _ = cv2.getTextSize(str(studentInfo['name']), cv2.FONT_HERSHEY_SIMPLEX, 1, 1)
                 
+                    center_offset = (414 - width)//2
+                    cv2.putText(backgroundImg, str(studentInfo['name']), (808 + center_offset, 445),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (50, 50, 50), 1) 
+                    
+                    backgroundImg [ 175:175 + 216, 909 + 216] = studentImg
 
+            counter += 1
 
-
-
-
-
-
-
-    cv2.imshow("Attendance System", backgroundImg)
-    cv2.waitKey(1)
+            if counter > 20:
+                counter = 0
+                modeType = 0
+                studentInfo = []
+                studentImg = []
+                backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
+        
+        else:
+            modeType = 0
+            counter = 0
+                            
+        cv2.imshow("Attendance System", backgroundImg)
+        cv2.waitKey(1)
