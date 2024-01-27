@@ -39,7 +39,9 @@ encodingsFile.close()
 encodingsListKnown, studentIDs = encodingListWithIDs
 print(studentIDs)
 
-
+modeType = 0
+counter = 0
+id = -1
 
 while True:
     success, image = capture.read()
