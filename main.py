@@ -11,6 +11,12 @@ from firebase_admin import db
 from firebase_admin import storage
 from datetime import datetime
 
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred, {
+    'databaseURL': "https://attendanceproject-e874c-default-rtdb.firebaseio.com/",
+    'storageBucket': "attendanceproject-e874c.appspot.com/"
+})
+
 # initializing webcam and reading background image
 capture = cv2.VideoCapture(0)
 capture.set(3, 1280)
