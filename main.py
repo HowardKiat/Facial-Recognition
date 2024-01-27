@@ -5,6 +5,12 @@ import face_recognition
 import numpy as np
 import cvzone
 
+import firebase_admin 
+from firebase_admin import credentials
+from firebase_admin import db
+from firebase_admin import storage
+from datetime import datetime
+
 # initializing webcam and reading background image
 capture = cv2.VideoCapture(0)
 capture.set(3, 1280)
