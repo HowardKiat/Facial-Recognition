@@ -63,24 +63,33 @@ while True:
     cv2.imshow("Attendance System", backgroundImg)
     cv2.waitKey(1)
 
-    for encodeFace, faceLocation in zip(encodeCurrentFrame, faceCurrentFrame):
-        matches = face_recognition.compare_faces(encodingsListKnown, encodeFace, tolerance=0.6)
-        faceDistance = face_recognition.face_distance(encodingsListKnown, encodeFace)
-        print("Matches", matches)
-        print("Face Distance", faceDistance)
+    if faceCurrentFrame:
 
-        matchIndex = np.argmin(faceDistance)
-        print("Match Index", matchIndex)
+        for encodeFace, faceLocation in zip(encodeCurrentFrame, faceCurrentFrame):
+            matches = face_recognition.compare_faces(encodingsListKnown, encodeFace, tolerance=0.6)
+            faceDistance = face_recognition.face_distance(encodingsListKnown, encodeFace)
+            print("Matches", matches)
+            print("Face Distance", faceDistance)
 
-        if matches[matchIndex]:
-            print("Registered Student Detected")
-            print(studentIDs[matchIndex])
+            matchIndex = np.argmin(faceDistance)
+            print("Match Index", matchIndex)
 
-        y1, x2, x1, y2 = faceLocation
-        y1, x2, x1, y2 = y1 * 4, x2 * 4, x1 * 4, y2 * 4
-        bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
+            if matches[matchIndex]:
+                print("Registered Student Detected")
+                print(studentIDs[matchIndex])
 
-        backgroundImg = cvzone.cornerRect(backgroundImg, bbox, rt=0)
+                y1, x2, x1, y2 = faceLocation
+                y1, x2, x1, y2 = y1 * 4, x2 * 4, x1 * 4, y2 * 4
+                bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
+
+                backgroundImg = cvzone.cornerRect(backgroundImg, bbox, rt=0)
+
+                id = studentIDs[matchIndex]
+
+
+
+
+
 
     cv2.imshow("Attendance System", backgroundImg)
     cv2.waitKey(1)
