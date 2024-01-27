@@ -17,6 +17,8 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': "attendanceproject-e874c.appspot.com/"
 })
 
+bucket = storage.bucket()
+
 # initializing webcam and reading background image
 capture = cv2.VideoCapture(0)
 capture.set(3, 1280)
@@ -36,6 +38,8 @@ encodingsFile.close()
 
 encodingsListKnown, studentIDs = encodingListWithIDs
 print(studentIDs)
+
+
 
 while True:
     success, image = capture.read()
