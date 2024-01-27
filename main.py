@@ -86,6 +86,18 @@ while True:
 
                 id = studentIDs[matchIndex]
 
+                if counter == 0:
+                    counter = 1
+                    modeType = 1
+
+        if counter != 0:
+            
+            if counter == 1:
+
+                studentInfo = db.reference(f'Stduents/{id}').get()
+                print(studentInfo)
+
+
 
 
 
