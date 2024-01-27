@@ -100,7 +100,31 @@ while True:
                 blob = bucket.get_blob(f'Images/{id}.png')
                 array = np.frombuffer(blob.download_as_string(), np.uint8)
                 studentImg = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
+
+                datetimeObject = datetime.strptime(studentInfo['last_attendance_taken'],
+                                                   "%Y-%m-%d %H:%M:%S")
+                timeInSecsElapsed = (datetime.now() - datetimeObject).total_seconds()
+                if timeInSecsElapsed > 30:
+
+                    ref = db.reference(f'Students/{id}')
+                    studentInfo['total_attendance'] += 1
+
+                    ref.child('total_attendance').set(studentInfo['total_attendance'])
+                    ref.child('last_attendance_taken').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                 
+                else:
+                    modeType = 3
+                    counter = 0
+                    backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
+
+            if modeType != 3:
+                if 10 < counter <20:
+                    modeType = 2
+
+                backgroundImg[44:44 + 633, 808:808 + 414] = imgListMode[modeType]
+
+                
+
 
 
 
